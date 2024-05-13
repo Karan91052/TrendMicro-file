@@ -17,8 +17,8 @@ jobs:
         run: |
           curl -L https://tmas-cli-releases.s3.amazonaws.com/latest/tmas -o tmas
           chmod +x tmas
-          sudo mv tmas C:\Users\KaranKumar\Downloads\tmas-cli_Windows_x86_64
-          
+          sudo mv tmas /usr/local/bin/tmas  # Install in a standard path
+
       - name: Scan Docker Image
         run: |
           export TMAS_API_KEY="${{ secrets.TMAS_API_KEY }}"
