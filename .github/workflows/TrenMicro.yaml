@@ -17,7 +17,7 @@ jobs:
         run: |
           curl -L https://tmas-cli-releases.s3.amazonaws.com/latest/tmas -o tmas
           chmod +x tmas
-          sudo mv tmas /usr/local/bin/  # Install in a standard path
+          export PATH="/path/to/tmas/binary/directory:$PATH"
 
       - name: Scan Docker Image
         run: |
