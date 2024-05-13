@@ -1,10 +1,8 @@
 name: TMAS Scan
-
 on:
   push:
     branches:
       - main
-
 jobs:
   tmas-scan:
     runs-on: ubuntu-latest
