@@ -1,0 +1,26 @@
+name: TMAS Scan
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  tmas-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install TMAS CLI
+        run: |
+          curl -L https://tmas-cli-releases.s3.amazonaws.com/latest/tmas -o tmas
+          chmod +x tmas
+          sudo mv tmas /usr/local/bin/
+
+      - name: Scan Docker Image
+        run: |
+          tmas scan bkimminich/juice-shop:latest
+        env:
+          TMAS_API_KEY: ${{ secrets.TMAS_API_KEY }}
