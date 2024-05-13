@@ -21,6 +21,6 @@ jobs:
 
       - name: Scan Docker Image
         run: |
-          tmas scan bkimminich/juice-shop:latest
+          tmas scan tmas scan docker:bkimminich/juice-shop:latest --saveSBOM
         env:
           TMAS_API_KEY: ${{ secrets.TMAS_API_KEY }}
