@@ -17,7 +17,7 @@ jobs:
         run: |
           curl -L https://tmas-cli-releases.s3.amazonaws.com/latest/tmas -o tmas
           chmod +x tmas
-          sudo mv tmas /usr/local/bin/
+          sudo mv tmas C:\Users\KaranKumar\Downloads\tmas-cli_Windows_x86_64
           
       - name: Scan Docker Image
         run: |
