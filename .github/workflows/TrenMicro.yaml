@@ -1,4 +1,4 @@
-name: Install and Scan with TMAS
+name: TMAS Scan
 
 on:
   push:
@@ -13,23 +13,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Download TMAS installer script
+      - name: Install TMAS CLI
         run: |
-          curl -L https://example.com/path/to/trend_micro_installer.sh -o trend_micro_installer.sh
-          chmod +x trend_micro_installer.sh
-
-      - name: Verify TMAS installer script
-        run: |
-          cat trend_micro_installer.sh  # Display the script content for verification
-
-      - name: Run TMAS installer
-        run: |
-          sudo ./trend_micro_installer.sh  # Run the installer script
-
-      - name: Set TMAS_API_KEY environment variable
-        run: echo "TMAS_API_KEY=${{ secrets.TMAS_API_KEY }}" >> $GITHUB_ENV
+          curl -L https://tmas-cli-releases.s3.amazonaws.com/latest/tmas -o tmas
+          chmod +x tmas
+          sudo mv tmas /usr/local/bin/  # Install in a standard path
 
       - name: Scan Docker Image
         run: |
           export TMAS_API_KEY="${{ secrets.TMAS_API_KEY }}"
-          tmas scan registry:bkimminich/juice-shop:latest --saveSBOM
+          tmas scan docker:bkimminich/juice-shop:latest --saveSBOM
