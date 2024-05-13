@@ -20,3 +20,6 @@ jobs:
       - name: Scan Docker Image
         run: |
           export TMAS_API_KEY="${{ secrets.TMAS_API_KEY }}"
+
+      - name: Scan Image
+        run: tmas scan docker:bkimminich/juice-shop:latest --saveSBOM
