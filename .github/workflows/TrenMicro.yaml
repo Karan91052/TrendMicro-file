@@ -1,8 +1,10 @@
 name: TMAS Scan
+
 on:
   push:
     branches:
       - main
+
 jobs:
   tmas-scan:
     runs-on: ubuntu-latest
@@ -15,12 +17,12 @@ jobs:
         run: |
           curl -L https://tmas-cli-releases.s3.amazonaws.com/latest/tmas -o tmas
           chmod +x tmas
-          sudo mv tmas /usr/local/bin/tmas  # Install in a standard path
+          sudo mv tmas /usr/local/bin/  # Install in a standard path
 
       - name: Scan Docker Image
         run: |
           export TMAS_API_KEY="${{ secrets.TMAS_API_KEY }}"
 
-      - name: Scan Image
+      - name: sacn Image
         run: |
           tmas scan docker:bkimminich/juice-shop:latest --saveSBOM
