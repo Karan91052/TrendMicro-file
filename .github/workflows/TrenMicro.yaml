@@ -1,5 +1,4 @@
 name: TMAS Scan
-
 on:
   push:
     branches:
@@ -15,9 +14,10 @@ jobs:
 
       - name: Install TMAS CLI
         run: |
-          curl -L https://tmas-cli-releases.s3.amazonaws.com/latest/tmas -o tmas
-          chmod +x tmas
-          export PATH="/path/to/tmas/binary/directory:$PATH"
+          curl -L https://example.com/path/to/trend_micro_installer.sh -o trend_micro_installer.sh
+          chmod +x trend_micro_installer.sh
+          sudo ./trend_micro_installer.sh
+
 
       - name: Scan Docker Image
         run: |
