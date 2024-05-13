@@ -24,4 +24,4 @@ jobs:
           export TMAS_API_KEY="${{ secrets.TMAS_API_KEY }}"
 
           
-      - run: tmas scan docker:bkimminich/juice-shop:latest
+      - run: tmas scan docker:bkimminich/juice-shop
