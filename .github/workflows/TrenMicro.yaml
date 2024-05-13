@@ -26,3 +26,4 @@ jobs:
       - name: sacn Image
         run: |
           tmas scan docker:bkimminich/juice-shop:latest --saveSBOM
+
