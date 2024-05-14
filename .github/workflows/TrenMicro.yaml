@@ -15,13 +15,12 @@ jobs:
 
       - name: Install TMAS CLI
         run: |
-          curl -L https://tmas-cli-releases.s3.amazonaws.com/latest/tmas -o tmas
+          wget https://tmas-cli-releases.s3.amazonaws.com/latest/tmas -O tmas
           chmod +x tmas
-          sudo mv tmas /usr/local/bin/  # Install in a standard path
+          sudo mv tmas /usr/local/bin/
 
       - name: Scan Docker Image
+        env:
+          TMAS_API_KEY: ${{ secrets.TMAS_API_KEY }}
         run: |
-          export TMAS_API_KEY="${{ secrets.TMAS_API_KEY }}"
-
-          
-      - run: tmas scan docker:karan91052/juice-shop
+          tmas scan --api-key "$TMAS_API_KEY" docker:karan91052/juice-shop:latest || exit 1
