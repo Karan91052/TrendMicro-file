@@ -30,4 +30,4 @@ jobs:
         env:
           TMAS_API_KEY: ${{ secrets.TMAS_API_KEY }}
         run: |
-          tmas scan --api-key "$TMAS_API_KEY" docker:karan91052/juice-shop:latest || exit 1
+          /usr/local/bin/tmas scan --api-key "$TMAS_API_KEY" docker:karan91052/juice-shop:latest --saveSBOM || exit 1
