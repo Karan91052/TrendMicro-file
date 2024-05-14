@@ -3,7 +3,7 @@ name: TMAS Scan
 on:
   push:
     branches:
-      - main
+      - main  # Adjust this to your default branch
 
 jobs:
   tmas-scan:
@@ -13,31 +13,25 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Remove Existing TMAS CLI Binary
-        run: sudo rm /usr/local/bin/tmas || true
+      - name: Scan with TMAS
+        uses: trendmicro/tmas-scan-action@v1
+        with:
+          TMAS_API_KEY: ${{ secrets.TMAS_API_KEY }}  # Your TMAS API key
+          REGION: us-east-1  # Choose your desired region
+          IMAGE: karan91052/juice-shop:latest  # Specify the image you want to scan
+          SBOM: true  # Save SBOM to SBOM.json for later reference
+          MALWARE_SCAN: true  # Enable malware scan
+          MAX_TOTAL: 0  # Set acceptable maximum total vulnerabilities
+          MAX_CRITICAL: 0  # Set acceptable maximum critical vulnerabilities
+          MAX_HIGH: 0  # Set acceptable maximum high vulnerabilities
+          MAX_MEDIUM: 0  # Set acceptable maximum medium vulnerabilities
+          MAX_LOW: 0  # Set acceptable maximum low vulnerabilities
+          MAX_NEGLIGIBLE: 0  # Set acceptable maximum negligible vulnerabilities
+          MAX_UNKNOWN: 0  # Set acceptable maximum unknown vulnerabilities
+          SCAN_RESULT_ARTIFACT: result.json  # Save scan result as an artifact
 
-      - name: Download and Install TMAS CLI
-        run: |
-          curl -L https://tmas-cli-releases.s3.amazonaws.com/latest/tmas-linux-amd64 -o tmas
-          chmod +x tmas
-          sudo mv tmas /usr/local/bin/
-
-      - name: Verify TMAS CLI Installation
-        run: |
-          /usr/local/bin/tmas --version
-
-      - name: Set TMAS_API_KEY environment variable
-        run: echo "TMAS_API_KEY=${{ secrets.TMAS_API_KEY }}" >> $GITHUB_ENV
-
-      - name: Test TMAS CLI
-        run: |
-          /usr/local/bin/tmas scan --api-key "$TMAS_API_KEY" docker:karan91052/juice-shop:latest --saveSBOM || true
-
-      - name: Print TMAS CLI Log
-        run: cat /tmp/tmas.log || true
-
-      - name: Scan Docker Image
-        env:
-          TMAS_API_KEY: ${{ secrets.TMAS_API_KEY }}
-        run: |
-          /usr/local/bin/tmas scan --api-key "$TMAS_API_KEY" docker:karan91052/juice-shop:latest --saveSBOM || exit 1
+      - name: Upload Scan Result Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: scan-result
+          path: result.json
