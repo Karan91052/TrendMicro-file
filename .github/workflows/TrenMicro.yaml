@@ -13,6 +13,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Remove Existing TMAS CLI Binary
+        run: sudo rm /usr/local/bin/tmas || true
+
       - name: Download and Install TMAS CLI
         run: |
           curl -L https://tmas-cli-releases.s3.amazonaws.com/latest/tmas-linux-amd64 -o tmas
@@ -26,8 +29,15 @@ jobs:
       - name: Set TMAS_API_KEY environment variable
         run: echo "TMAS_API_KEY=${{ secrets.TMAS_API_KEY }}" >> $GITHUB_ENV
 
+      - name: Test TMAS CLI
+        run: |
+          /usr/local/bin/tmas scan --api-key "$TMAS_API_KEY" docker:karan91052/juice-shop:latest --saveSBOM || true
+
+      - name: Print TMAS CLI Log
+        run: cat /tmp/tmas.log || true
+
       - name: Scan Docker Image
         env:
           TMAS_API_KEY: ${{ secrets.TMAS_API_KEY }}
         run: |
-          tmas scan --api-key "$TMAS_API_KEY" docker:karan91052/karan:latest || exit 1
+          /usr/local/bin/tmas scan --api-key "$TMAS_API_KEY" docker:karan91052/juice-shop:latest --saveSBOM || exit 1
