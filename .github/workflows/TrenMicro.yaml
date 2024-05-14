@@ -15,7 +15,7 @@ jobs:
 
       - name: Download and Install TMAS CLI
         run: |
-          wget https://tmas-cli-releases.s3.amazonaws.com/latest/tmas -O tmas
+          curl -L https://tmas-cli-releases.s3.amazonaws.com/latest/tmas-linux-amd64 -o tmas
           chmod +x tmas
           sudo mv tmas /usr/local/bin/
 
