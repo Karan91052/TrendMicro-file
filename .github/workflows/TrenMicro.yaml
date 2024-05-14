@@ -16,7 +16,8 @@ jobs:
       - name: Download TMAS CLI
         run: |
           curl -L https://tmas-cli-releases.s3.amazonaws.com/latest/tmas -o tmas
-          
+          chmod +x tmas
+          sudo mv tmas /home/runner/work/_temp/
 
       - name: Scan Docker Image
         env:
