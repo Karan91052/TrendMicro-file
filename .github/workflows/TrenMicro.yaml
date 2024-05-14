@@ -13,9 +13,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install TMAS CLI
+      - name: Download TMAS CLI
         run: |
-          wget https://tmas-cli-releases.s3.amazonaws.com/latest/tmas -O tmas
+          curl -L https://tmas-cli-releases.s3.amazonaws.com/latest/tmas -o tmas
           chmod +x tmas
           sudo mv tmas /usr/local/bin/
 
