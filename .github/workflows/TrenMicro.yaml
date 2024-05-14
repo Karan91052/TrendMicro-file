@@ -13,12 +13,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Download TMAS CLI
+      - name: Download and Install TMAS CLI
         run: |
-          curl -L https://tmas-cli-releases.s3.amazonaws.com/latest/tmas -o tmas
+          wget https://tmas-cli-releases.s3.amazonaws.com/latest/tmas -O tmas
           chmod +x tmas
           sudo mv tmas /usr/local/bin/
-          
+
+      - name: Verify TMAS CLI Installation
+        run: |
+          /usr/local/bin/tmas --version
+
+      - name: Set TMAS_API_KEY environment variable
+        run: echo "TMAS_API_KEY=${{ secrets.TMAS_API_KEY }}" >> $GITHUB_ENV
+
       - name: Scan Docker Image
         env:
           TMAS_API_KEY: ${{ secrets.TMAS_API_KEY }}
