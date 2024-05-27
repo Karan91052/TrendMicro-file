@@ -1,10 +1,8 @@
 name: "TMAS Scan Action"
-description: "Scan container images with Vision One Container Security"
-author: "Trend Micro"
 on:
   push:
     branches:
-      - main  # Adjust this to your main branch name
+      - main
 
 jobs:
   scan:
@@ -17,11 +15,11 @@ jobs:
       - name: TMAS Scan Action
         uses: trendmicro/tmas-scan-action@v1
         with:
-          TMAS_API_KEY: ${{ secrets.TMAS_API_KEY }}  # Your Vision One API key
-          REGION: us-east-1  # Choose your desired region
-          IMAGE: alpine  # The image to scan (public or accessible by the pipeline)
-          SBOM: true  # Saves SBOM to SBOM.json so you can export it as an artifact later.
-          MALWARE_SCAN: true  # Enable malware scan.
+          TMAS_API_KEY: ${{ secrets.TMAS_API_KEY }}
+          IMAGE: alpine
+          REGION: us-east-1
+          SBOM: true
+          MALWARE_SCAN: true
           MAX_TOTAL: 0
           MAX_CRITICAL: 0
           MAX_HIGH: 0
@@ -29,8 +27,8 @@ jobs:
           MAX_LOW: 0
           MAX_NEGLIGIBLE: 0
           MAX_UNKNOWN: 0
-          SCAN_RESULT_ARTIFACT: result.json  # Save as an artifact in GitHub to keep the scan result.
-          LOCAL_IMAGE_TARBALL: image.tar  # For pre-registry scanning (if applicable).
+          SCAN_RESULT_ARTIFACT: result.json
+          LOCAL_IMAGE_TARBALL: image.tar
 
       # Optional: Upload scan result and SBOM as artifacts
       - name: 'Upload Scan Result Artifact'
