@@ -1,33 +1,24 @@
-name: TMAS Scan
+name: TMAS Scan Workflow
 
 on:
   push:
     branches:
-      - main  # Adjust this to your default branch
+      - main  # Adjust this to your main branch name
 
 jobs:
-  tmas-scan:
+  scan:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
+      - name: TMAS Scan Action
+        uses: trendmicro/tmas-scan-action@v1
         with:
-          node-version: '14'
-
-      - name: Install TMAS CLI
-        run: npm install -g @trendmicro/tmas-cli
-
-      - name: Scan with TMAS
-        run: tmas scan karan91052/juice-shop:latest
-        env:
-          TMAS_API_KEY: ${{ secrets.TMAS_API_KEY }}  # Your TMAS API key
-
-      - name: Upload Scan Result Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: scan-result
-          path: tmas-report.json
+          TMAS_API_KEY: ${{ secrets.TMAS_API_KEY }}  # Your Vision One API key
+          REGION: us-east-1  # Choose your desired region
+          IMAGE: alpine  # The image to scan (public or accessible by the pipeline)
+          SBOM: true  # Save SBOM to SBOM.json
+          MALWARE_SCAN: true  # Enable malware scan
+          SCAN_RESULT_ARTIFACT: result.json  # Save scan result as an artifact
