@@ -22,7 +22,7 @@ jobs:
         run: npm install -g @trendmicro/tmas-cli
 
       - name: Scan with TMAS
-        run: tmas scan my-container-image:latest
+        run: tmas scan karan91052/juice-shop:latest
         env:
           TMAS_API_KEY: ${{ secrets.TMAS_API_KEY }}  # Your TMAS API key
 
